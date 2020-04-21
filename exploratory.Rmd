@@ -33,3 +33,17 @@ dbDisconnect(con)
 
 ```
 
+
+
+```{r salaries}
+
+# count(salaries, salary, sort = FALSE)   # Values below $60,000 are outliers
+
+salaries <- salaries %>% filter(salary >= 60000)
+
+```
+
+
+
+
+
