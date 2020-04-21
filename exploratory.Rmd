@@ -12,6 +12,7 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 ```{r necessities}
 
 source("libraries.R")
+source("queries.R")
 
 ```
 
@@ -19,7 +20,10 @@ source("libraries.R")
 
 con <- dbConnect(RSQLite::SQLite(), "background-files/lahmansbaseballdb.sqlite")
 
-dbListTables(con)
+teams <- dbGetQuery(con, q_teams)
+
+head(teams)
+
 
 dbDisconnect(con)
 
