@@ -50,6 +50,12 @@ payroll <- salaries %>% group_by(teamID, yearID) %>% summarise(payroll = sum(sal
 
 payroll <- payroll %>% left_join(teams, by = c("yearID","teamID"))
 
+payroll <- payroll %>% mutate(WSWin = factor(WSWin)
+                              ,yearID = factor(yearID))
+
+ggplot(payroll, aes(yearID, payroll)) + geom_boxplot() + theme(axis.text.x = element_text(vjust = 0.5, hjust = 1, angle = 90))
+
+
 
 ```
 
