@@ -22,7 +22,11 @@ con <- dbConnect(RSQLite::SQLite(), "background-files/lahmansbaseballdb.sqlite")
 
 teams <- dbGetQuery(con, q_teams)
 
-head(teams)
+salaries <- dbGetQuery(con, q_salaries)
+
+postseason <- dbGetQuery(con, q_postseason)
+
+head(postseason)
 
 
 dbDisconnect(con)
