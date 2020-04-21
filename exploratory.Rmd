@@ -35,7 +35,7 @@ dbDisconnect(con)
 
 
 
-```{r salaries}
+```{r salaries-prep}
 
 # count(salaries, salary, sort = FALSE)   # Values below $60,000 are outliers
 
@@ -44,6 +44,14 @@ salaries <- salaries %>% filter(salary >= 60000)
 ```
 
 
+```{r team-payroll}
+
+payroll <- salaries %>% group_by(teamID, yearID) %>% summarise(payroll = sum(salary)/1000000)   # in millions
+
+payroll <- payroll %>% left_join(teams, by = c("yearID","teamID"))
+
+
+```
 
 
 
