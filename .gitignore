@@ -43,4 +43,5 @@ vignettes/*.pdf
 *.sqlite
 *.png
 
-# test commit
+*.html
+*.csv

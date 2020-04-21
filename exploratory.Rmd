@@ -1,0 +1,35 @@
+---
+title: "Baseball Exploratory"
+author: "Matthew Johns"
+date: "4/21/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+```
+
+```{r necessities}
+
+source("libraries.R")
+source("queries.R")
+
+```
+
+```{r data-ingest}
+
+con <- dbConnect(RSQLite::SQLite(), "background-files/lahmansbaseballdb.sqlite")
+
+teams <- dbGetQuery(con, q_teams)
+
+salaries <- dbGetQuery(con, q_salaries)
+
+postseason <- dbGetQuery(con, q_postseason)
+
+head(postseason)
+
+
+dbDisconnect(con)
+
+```
+
