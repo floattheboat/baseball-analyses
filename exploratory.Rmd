@@ -48,19 +48,31 @@ salaries <- salaries %>% filter(salary >= 60000)
 
 payroll_team <- salaries %>% group_by(teamID, yearID) %>% summarise(payroll_team = sum(salary)/1000000)   # in millions
 
-payroll_team %<>% left_join(teams, by = c("yearID","teamID"))
+payroll_team %<>% left_join(teams, by = c("yearID","teamID"))                                             # adds the teams columns
 
-payroll_team %<>% mutate(WSWin = factor(WSWin)
+payroll_team %<>% mutate(WSWin = factor(WSWin)                                                            # typing to factor
                               ,yearID = factor(yearID))
 
 
-payroll_year <- payroll_team %>% group_by(yearID) %>% summarise(mean_payroll_year = mean(payroll_team))
+# payroll grouped by year
+
+payroll_year <- payroll_team %>% group_by(yearID) %>% summarise(mean_payroll_year = mean(payroll_team)
+                                                                , sd_payroll_year = sqrt(var(payroll_team))
+                                                                , cv_payroll_year = sd_payroll_year / mean_payroll_year)   
+
+
+# team payroll adjusted by yearly mean
+
+payroll_team %<>% left_join(payroll_year) %>% mutate(payroll_team_mean_adj = payroll_team / mean_payroll_year)   
 
 
 
-payroll_team %<>% left_join(payroll_year) %>% mutate(payroll_team_mean_adj = payroll_team / mean_payroll_year)
+```
 
 
+
+
+```{r plots}
 
 ggplot(payroll_team, aes(yearID, payroll_team)) + 
   geom_boxplot() + 
@@ -74,15 +86,10 @@ ggplot(payroll_team, aes(yearID, payroll_team_mean_adj)) +
   labs(title = "Mean-Adjusted Payroll by Team and Year")
 
 
-```
-
-
-
-
-```{r}
-
-
-
+ggplot(payroll_year, aes(yearID, cv_payroll_year)) + 
+  geom_point() + 
+  theme(axis.text.x = element_text(vjust = 0.5, hjust = 1, angle = 90)) + 
+  labs(title = "Coefficient of Variation by Year")
 
 ```
 
