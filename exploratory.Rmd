@@ -71,7 +71,7 @@ ggplot(payroll_team, aes(yearID, payroll_team)) +
 ggplot(payroll_team, aes(yearID, payroll_team_mean_adj)) + 
   geom_boxplot() + 
   theme(axis.text.x = element_text(vjust = 0.5, hjust = 1, angle = 90)) + 
-  labs(title = "Payroll by Team and Year")
+  labs(title = "Mean-Adjusted Payroll by Team and Year")
 
 
 ```
