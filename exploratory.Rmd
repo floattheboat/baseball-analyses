@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 ```
 
 ```{r necessities}
@@ -26,7 +26,7 @@ salaries <- dbGetQuery(con, q_salaries)
 
 postseason <- dbGetQuery(con, q_postseason)
 
-head(postseason)
+#head(postseason)
 
 
 dbDisconnect(con)
@@ -46,18 +46,64 @@ salaries <- salaries %>% filter(salary >= 60000)
 
 ```{r team-payroll}
 
-payroll <- salaries %>% group_by(teamID, yearID) %>% summarise(payroll = sum(salary)/1000000)   # in millions
+payroll_team <- salaries %>% group_by(teamID, yearID) %>% summarise(payroll_team = sum(salary)/1000000)   # in millions
 
-payroll <- payroll %>% left_join(teams, by = c("yearID","teamID"))
+payroll_team %<>% left_join(teams, by = c("yearID","teamID"))
 
-payroll <- payroll %>% mutate(WSWin = factor(WSWin)
+payroll_team %<>% mutate(WSWin = factor(WSWin)
                               ,yearID = factor(yearID))
 
-ggplot(payroll, aes(yearID, payroll)) + geom_boxplot() + theme(axis.text.x = element_text(vjust = 0.5, hjust = 1, angle = 90))
+
+payroll_year <- payroll_team %>% group_by(yearID) %>% summarise(mean_payroll_year = mean(payroll_team))
+
+
+
+payroll_team %<>% left_join(payroll_year) %>% mutate(payroll_team_mean_adj = payroll_team / mean_payroll_year)
+
+
+
+ggplot(payroll_team, aes(yearID, payroll_team)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(vjust = 0.5, hjust = 1, angle = 90)) + 
+  labs(title = "Payroll by Team and Year")
+
+
+ggplot(payroll_team, aes(yearID, payroll_team_mean_adj)) + 
+  geom_boxplot() + 
+  theme(axis.text.x = element_text(vjust = 0.5, hjust = 1, angle = 90)) + 
+  labs(title = "Payroll by Team and Year")
+
+
+```
+
+
+
+
+```{r}
+
 
 
 
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
