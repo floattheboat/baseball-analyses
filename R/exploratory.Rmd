@@ -19,7 +19,7 @@ source("queries.R")
 
 ```{r data-ingest}
 
-con <- dbConnect(RSQLite::SQLite(), here::here("background-files/lahmansbaseballdb.sqlite"))
+con <- dbConnect(RSQLite::SQLite(), here::here("background-files/lahmansbaseballdb.sqlite"))  # downloaded directly from http://www.seanlahman.com/baseball-archive/statistics/
 
 teams <- dbGetQuery(con, q_teams)
 
@@ -47,6 +47,8 @@ salaries <- salaries %>% filter(salary >= 60000)
 
 ```{r team-payroll}
 
+# this dataflow and plotting scheme inspired by the browseVignettes("Lahman")
+
 payroll_team <- salaries %>% group_by(teamID, yearID) %>% summarise(payroll_team = sum(salary)/1000000)   # in millions
 
 payroll_team %<>% left_join(teams, by = c("yearID","teamID"))                                             # adds the teams columns
@@ -69,7 +71,6 @@ payroll_team %<>% left_join(payroll_year) %>% mutate(payroll_team_mean_adj = pay
 
 
 ```
-
 
 
 

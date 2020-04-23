@@ -7,6 +7,7 @@
 import pandas as pd
 import sqlite3
 
+# dataset and first few cells inspired by https://www.datacamp.com/community/tutorials/scikit-learn-tutorial-baseball-1
 # Connecting to SQLite Database
 conn = sqlite3.connect('lahman2016.sqlite')
 
