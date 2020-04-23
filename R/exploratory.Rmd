@@ -13,12 +13,13 @@ knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 source("libraries.R")
 source("queries.R")
+#here::here()
 
 ```
 
 ```{r data-ingest}
 
-con <- dbConnect(RSQLite::SQLite(), "background-files/lahmansbaseballdb.sqlite")
+con <- dbConnect(RSQLite::SQLite(), here::here("background-files/lahmansbaseballdb.sqlite"))
 
 teams <- dbGetQuery(con, q_teams)
 
