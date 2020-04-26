@@ -40,4 +40,19 @@ print(teams_df.head())
 print(len(teams_df))
 
 
+# Dropping your unnecesary column variables.
+
+drop_cols = ['lgID','franchID','divID','Rank','Ghome','L','DivWin','WCWin','LgWin','WSWin','SF','name','park','attendance','BPF','PPF','teamIDBR','teamIDlahman45','teamIDretro','franchID','franchName','active','NAassoc']
+
+df = teams_df.drop(drop_cols, axis=1)
+
+print(df.head())
+
+
+
+# Print out null values of all columns of `df`
+
+print(df.isnull().sum(axis=0).tolist())
+
+
 
